@@ -1,0 +1,11 @@
+{
+  "label": "Time-of-Flight depth-sensing camera module",
+  "description": "A Time-of-Flight depth-sensing camera module containing a Vertical Cavity Surface Emitting Laser, a diffractive optical element for beam shaping, and a Single Photon Avalanche Diode sensor array. Used in a consumer device for depth mapping and 3D sensing. Operates at 940 nanometers, in ambient temperatures from negative ten to plus fifty degrees Celsius. Module is consumer grade and shipped at high volume.",
+  "functions": [
+    "Emit a structured infrared illumination pattern with controlled intensity",
+    "Detect returning photons within the integration window",
+    "Compute per-pixel time-of-flight to derive a depth map",
+    "Maintain eye-safety compliance under all operating conditions",
+    "Operate within consumer device thermal and power budgets"
+  ]
+}
