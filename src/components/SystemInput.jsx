@@ -1,12 +1,12 @@
 import { useState } from 'react'
 
-const exampleDescription = `A Time-of-Flight depth-sensing camera module containing a Vertical Cavity Surface Emitting Laser, a diffractive optical element for beam shaping, and a Single Photon Avalanche Diode sensor array. Used in a consumer device for depth mapping and 3D sensing. Operates at 940 nanometers, in ambient temperatures from negative ten to plus fifty degrees Celsius. Module is consumer grade and shipped at high volume.`
+const exampleDescription = `A consumer-grade DSLR camera body with a 24-megapixel APS-C CMOS sensor, optical pentaprism viewfinder, 45-point phase-detection autofocus system, mechanical focal-plane shutter rated to 150,000 actuations, 5-axis in-body image stabilization, and a native bayonet lens mount supporting interchangeable lenses. Designed for enthusiast photographers. Operating temperature 0 to 40 degrees Celsius. Annual production volume approximately 500,000 units.`
 
-const exampleFunctions = `- Emit a structured infrared illumination pattern with controlled intensity
-- Detect returning photons within the integration window
-- Compute per-pixel time-of-flight to derive a depth map
-- Maintain eye-safety compliance under all operating conditions
-- Operate within consumer device thermal and power budgets`
+const exampleFunctions = `- Capture sharp, correctly exposed images across a range of lighting conditions
+- Focus accurately on stationary and moving subjects using phase-detection autofocus
+- Provide an accurate through-the-lens optical viewfinder image
+- Write image data reliably to dual SD card slots
+- Power the system for at least 800 shots per battery charge`
 
 export default function SystemInput({ onSubmit, loading }) {
   const [description, setDescription] = useState('')
@@ -35,7 +35,7 @@ export default function SystemInput({ onSubmit, loading }) {
             onClick={loadExample}
             className="text-xs text-blue-600 hover:text-blue-800 underline"
           >
-            Load depth-module example
+            Load DSLR camera example
           </button>
         </div>
         <textarea

@@ -50,7 +50,7 @@ export default async function handler(req, res) {
   try {
     const message = await client.messages.create({
       model: 'claude-sonnet-4-6',
-      max_tokens: 4000,
+      max_tokens: 8000,
       messages: [
         {
           role: 'user',
@@ -89,15 +89,18 @@ export default async function handler(req, res) {
         const occurrence = clampInt(row.occurrence, 1, 10, 5)
         const detection = clampInt(row.detection, 1, 10, 5)
         return {
-          function: String(row.function || '').slice(0, 200),
-          failureMode: String(row.failureMode || '').slice(0, 200),
-          effect: String(row.effect || '').slice(0, 400),
-          cause: String(row.cause || '').slice(0, 400),
+          customerImpact: String(row.customerImpact || '').slice(0, 120),
+          function: String(row.function || '').slice(0, 100),
+          failureMode: String(row.failureMode || '').slice(0, 100),
+          effect: String(row.effect || '').slice(0, 200),
+          cause: String(row.cause || '').slice(0, 200),
           severity,
           occurrence,
           detection,
           rpn: severity * occurrence * detection,
-          recommendedAction: String(row.recommendedAction || '').slice(0, 400),
+          recommendedAction: String(row.recommendedAction || '').slice(0, 200),
+          actionCost: clampInt(row.actionCost, 1, 10, 5),
+          teams: String(row.teams || '').slice(0, 60),
         }
       })
 

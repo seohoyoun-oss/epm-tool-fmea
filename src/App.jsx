@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import SystemInput from './components/SystemInput.jsx'
 import FmeaTable from './components/FmeaTable.jsx'
+import QuadrantChart from './components/QuadrantChart.jsx'
 import ExportButton from './components/ExportButton.jsx'
 import PortfolioFooter from './components/PortfolioFooter.jsx'
 import { generateFmea } from './lib/apiClient.js'
@@ -17,7 +18,6 @@ export default function App() {
     setSystemDescription(description)
     try {
       const generated = await generateFmea({ description, functions })
-      // Each row gets a stable identifier so React can track it across edits.
       const stamped = generated.map((row, index) => ({
         id: `row-${Date.now()}-${index}`,
         ...row,
@@ -34,15 +34,17 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
+
+      {/* Header — left-aligned, full width */}
       <header className="border-b border-slate-200 bg-white">
-        <div className="max-w-6xl mx-auto px-6 py-5">
+        <div className="px-6 py-5">
           <div className="text-xs uppercase tracking-widest text-slate-500">
             Engineering Program Manager Tools Portfolio
           </div>
           <h1 className="text-2xl font-semibold text-slate-900 mt-1">
             Failure Mode and Effects Analysis Assistant
           </h1>
-          <p className="text-sm text-slate-600 mt-2 max-w-3xl">
+          <p className="text-sm text-slate-600 mt-2">
             Describe a hardware system in plain language and receive a structured
             failure-mode analysis you can edit, score, and export. Designed to
             compress the experience gap that makes early-career hardware program
@@ -51,7 +53,9 @@ export default function App() {
         </div>
       </header>
 
-      <main className="flex-1 max-w-6xl w-full mx-auto px-6 py-8 space-y-8">
+      <main className="flex-1 flex flex-col px-6 py-6 gap-6">
+
+        {/* Input form — left-aligned */}
         <SystemInput onSubmit={handleGenerate} loading={loading} />
 
         {error && (
@@ -61,28 +65,39 @@ export default function App() {
           </div>
         )}
 
+        {rows.length === 0 && !loading && (
+          <div className="rounded border border-dashed border-slate-300 bg-white p-8 text-center text-sm text-slate-500">
+            Describe a system above and click Generate to see a draft analysis here.
+          </div>
+        )}
+
         {rows.length > 0 && (
-          <section className="space-y-4">
+          <section className="flex-1 flex flex-col gap-3 min-h-0">
+
+            {/* Table title + export — left-aligned */}
             <div className="flex items-center justify-between gap-4 flex-wrap">
               <div>
                 <h2 className="text-lg font-semibold text-slate-900">
                   Generated Failure Mode and Effects Analysis
                 </h2>
                 <p className="text-sm text-slate-600">
-                  {rows.length} proposed rows. Edit any cell. Severity, occurrence, and
-                  detection update Risk Priority Number automatically.
+                  Showing top 10 of {rows.length} rows by Risk Priority Number. Edit any cell — scores and the priority matrix update automatically.
                 </p>
               </div>
               <ExportButton rows={rows} systemDescription={systemDescription} />
             </div>
-            <FmeaTable rows={rows} onChange={handleRowsChange} />
-          </section>
-        )}
 
-        {rows.length === 0 && !loading && (
-          <div className="rounded border border-dashed border-slate-300 bg-white p-8 text-center text-sm text-slate-500">
-            Describe a system above and click Generate to see a draft analysis here.
-          </div>
+            {/* Side-by-side: table left (flex-1), chart right (fixed width) — both stretch to same height */}
+            <div className="flex gap-6 flex-1 min-h-0">
+              <div className="flex-1 min-w-0 flex flex-col min-h-0">
+                <FmeaTable rows={rows} onChange={handleRowsChange} />
+              </div>
+              <div className="w-[520px] flex-shrink-0">
+                <QuadrantChart rows={rows} />
+              </div>
+            </div>
+
+          </section>
         )}
       </main>
 

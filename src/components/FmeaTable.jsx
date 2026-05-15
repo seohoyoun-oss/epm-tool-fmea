@@ -42,32 +42,38 @@ export default function FmeaTable({ rows, onChange }) {
     onChange(rows.filter((row) => row.id !== id))
   }
 
-  const sortedRows = [...rows].sort((a, b) => (b.rpn || 0) - (a.rpn || 0))
+  const sortedRows = [...rows]
+    .sort((a, b) => (b.rpn || 0) - (a.rpn || 0))
+    .slice(0, 10)
+    .map((row, i) => ({ ...row, rank: i + 1 }))
 
   return (
-    <div className="overflow-x-auto rounded border border-slate-200 bg-white">
+    <div className="flex-1 flex flex-col min-h-0 rounded border border-slate-200 bg-white overflow-hidden">
+      <div className="overflow-auto flex-1">
       <table className="min-w-full divide-y divide-slate-200 text-sm">
-        <thead className="bg-slate-50">
+        <thead className="bg-slate-50 sticky top-0 z-10">
           <tr>
-            <Th width="14%">Function</Th>
-            <Th width="14%">Failure Mode</Th>
-            <Th width="14%">Effect</Th>
-            <Th width="14%">Cause</Th>
-            <Th width="6%" tooltip={ratingTooltip.severity}>S</Th>
-            <Th width="6%" tooltip={ratingTooltip.occurrence}>O</Th>
-            <Th width="6%" tooltip={ratingTooltip.detection}>D</Th>
-            <Th width="6%">RPN</Th>
-            <Th width="16%">Recommended Action</Th>
-            <Th width="4%" />
+            <Th width="3%">#</Th>
+            <Th width="13%">Failure Mode</Th>
+            <Th width="11%">Effect</Th>
+            <Th width="10%">Cause</Th>
+            <Th width="9%" tooltip="Teams responsible for resolving this failure mode. ME = Mechanical Eng, EE = Electrical Eng, OE = Optical Eng, SW = Software, FW = Firmware, SYS = Systems Eng, MFG = Manufacturing, QA = Quality Assurance, TE = Test Eng">Teams</Th>
+            <Th width="5%" tooltip={ratingTooltip.severity}>S</Th>
+            <Th width="5%" tooltip={ratingTooltip.occurrence}>O</Th>
+            <Th width="5%" tooltip={ratingTooltip.detection}>D</Th>
+            <Th width="5%">RPN</Th>
+            <Th width="13%">Recommended Action</Th>
+            <Th width="3%" />
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-100">
           {sortedRows.map((row) => (
             <tr key={row.id} className="align-top hover:bg-slate-50">
-              <EditableCell value={row.function} onChange={(value) => updateRow(row.id, 'function', value)} />
-              <EditableCell value={row.failureMode} onChange={(value) => updateRow(row.id, 'failureMode', value)} />
+              <td className="px-3 py-2 text-center font-semibold text-slate-500 text-sm">{row.rank}</td>
+              <EditableCell value={row.customerImpact} onChange={(value) => updateRow(row.id, 'customerImpact', value)} accent />
               <EditableCell value={row.effect} onChange={(value) => updateRow(row.id, 'effect', value)} />
               <EditableCell value={row.cause} onChange={(value) => updateRow(row.id, 'cause', value)} />
+              <EditableCell value={row.teams} onChange={(value) => updateRow(row.id, 'teams', value)} placeholder="ME, EE, SW…" />
               <RatingCell value={row.severity} onChange={(value) => updateRow(row.id, 'severity', value)} />
               <RatingCell value={row.occurrence} onChange={(value) => updateRow(row.id, 'occurrence', value)} />
               <RatingCell value={row.detection} onChange={(value) => updateRow(row.id, 'detection', value)} />
@@ -90,6 +96,7 @@ export default function FmeaTable({ rows, onChange }) {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   )
 }
@@ -107,14 +114,17 @@ function Th({ children, width, tooltip }) {
   )
 }
 
-function EditableCell({ value, onChange }) {
+function EditableCell({ value, onChange, accent = false, placeholder }) {
   return (
-    <td className="px-3 py-2">
+    <td className={`px-3 py-2 ${accent ? 'bg-blue-50' : ''}`}>
       <textarea
         value={value || ''}
         onChange={(event) => onChange(event.target.value)}
-        rows={3}
-        className="w-full bg-transparent text-sm text-slate-900 leading-snug resize-none focus:bg-white focus:ring-1 focus:ring-blue-400 rounded px-1"
+        rows={2}
+        placeholder={placeholder}
+        className={`w-full bg-transparent text-sm leading-snug resize-none focus:bg-white focus:ring-1 focus:ring-blue-400 rounded px-1 ${
+          accent ? 'text-blue-900 font-medium' : 'text-slate-900'
+        }`}
       />
     </td>
   )

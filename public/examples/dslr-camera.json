@@ -1,0 +1,11 @@
+{
+  "label": "Consumer DSLR Camera",
+  "description": "A consumer-grade DSLR camera body with a 24-megapixel APS-C CMOS sensor, optical pentaprism viewfinder, 45-point phase-detection autofocus system, mechanical focal-plane shutter rated to 150,000 actuations, 5-axis in-body image stabilization, and a native bayonet lens mount supporting interchangeable lenses. Designed for enthusiast photographers. Operating temperature 0 to 40 degrees Celsius. Annual production volume approximately 500,000 units.",
+  "functions": [
+    "Capture sharp, correctly exposed images across a range of lighting conditions",
+    "Focus accurately on stationary and moving subjects using phase-detection autofocus",
+    "Provide an accurate through-the-lens optical viewfinder image",
+    "Write image data reliably to dual SD card slots",
+    "Power the system for at least 800 shots per battery charge"
+  ]
+}

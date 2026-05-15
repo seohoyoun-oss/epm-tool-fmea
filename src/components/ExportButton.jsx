@@ -3,6 +3,7 @@ import Papa from 'papaparse'
 export default function ExportButton({ rows, systemDescription }) {
   const handleExport = () => {
     const exportRows = rows.map(({ id, ...rest }) => ({
+      'Customer Impact': rest.customerImpact || '',
       Function: rest.function || '',
       'Failure Mode': rest.failureMode || '',
       Effect: rest.effect || '',
@@ -11,6 +12,7 @@ export default function ExportButton({ rows, systemDescription }) {
       Occurrence: rest.occurrence || 0,
       Detection: rest.detection || 0,
       'Risk Priority Number': rest.rpn || 0,
+      Teams: rest.teams || '',
       'Recommended Action': rest.recommendedAction || '',
     }))
 
