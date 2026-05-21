@@ -28,3 +28,13 @@ Thumbs.db
 
 # Personal notes
 DEPLOY.md
+
+# Claude Code project settings (dev tooling)
+.claude/
+
+# Root-level source assets already copied into public/
+/ERS_Robot_Vacuum.pdf
+/avatar_pixel_v2.png
+
+# Reference documentation (ERS specs, not app code)
+docs/

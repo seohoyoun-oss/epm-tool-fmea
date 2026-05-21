@@ -1,7 +1,11 @@
 import Papa from 'papaparse'
+import html2canvas from 'html2canvas'
+import { useState } from 'react'
 
-export default function ExportButton({ rows, systemDescription }) {
-  const handleExport = () => {
+export default function ExportButton({ rows, systemDescription, chartRef }) {
+  const [exportingPng, setExportingPng] = useState(false)
+
+  const handleExportCsv = () => {
     const exportRows = rows.map(({ id, ...rest }) => ({
       'Customer Impact': rest.customerImpact || '',
       Function: rest.function || '',
@@ -35,13 +39,44 @@ export default function ExportButton({ rows, systemDescription }) {
     URL.revokeObjectURL(url)
   }
 
+  const handleExportPng = async () => {
+    if (!chartRef?.current) return
+    setExportingPng(true)
+    try {
+      const canvas = await html2canvas(chartRef.current, {
+        scale: 2,
+        backgroundColor: '#ffffff',
+        useCORS: true,
+      })
+      const url = canvas.toDataURL('image/png')
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `fmea-priority-matrix-${new Date().toISOString().slice(0, 10)}.png`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    } finally {
+      setExportingPng(false)
+    }
+  }
+
   return (
-    <button
-      type="button"
-      onClick={handleExport}
-      className="inline-flex items-center gap-2 rounded border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
-    >
-      Export to CSV
-    </button>
+    <div className="flex items-center gap-2">
+      <button
+        type="button"
+        onClick={handleExportCsv}
+        className="inline-flex items-center gap-2 rounded border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+      >
+        Export to CSV
+      </button>
+      <button
+        type="button"
+        onClick={handleExportPng}
+        disabled={exportingPng}
+        className="inline-flex items-center gap-2 rounded border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {exportingPng ? 'Saving…' : 'Export to PNG'}
+      </button>
+    </div>
   )
 }

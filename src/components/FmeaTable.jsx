@@ -57,7 +57,7 @@ export default function FmeaTable({ rows, onChange }) {
             <Th width="13%">Failure Mode</Th>
             <Th width="11%">Effect</Th>
             <Th width="10%">Cause</Th>
-            <Th width="9%" tooltip="Teams responsible for resolving this failure mode. ME = Mechanical Eng, EE = Electrical Eng, OE = Optical Eng, SW = Software, FW = Firmware, SYS = Systems Eng, MFG = Manufacturing, QA = Quality Assurance, TE = Test Eng">Teams</Th>
+            <Th width="9%" tooltip="Teams responsible for resolving this failure mode. ME = Mechanical Eng, EE = Electrical Eng, OE = Optical Eng, SW = Software, FW = Firmware, SYS = Systems Eng, MFG = Manufacturing, QA = Quality Assurance, TE = Test Eng">Teams to Collaborate</Th>
             <Th width="5%" tooltip={ratingTooltip.severity}>S</Th>
             <Th width="5%" tooltip={ratingTooltip.occurrence}>O</Th>
             <Th width="5%" tooltip={ratingTooltip.detection}>D</Th>
@@ -69,7 +69,7 @@ export default function FmeaTable({ rows, onChange }) {
         <tbody className="divide-y divide-slate-100">
           {sortedRows.map((row) => (
             <tr key={row.id} className="align-top hover:bg-slate-50">
-              <td className="px-3 py-2 text-center font-semibold text-slate-500 text-sm">{row.rank}</td>
+              <td className="px-3 py-2 text-left font-semibold text-slate-500 text-sm">{row.rank}</td>
               <EditableCell value={row.customerImpact} onChange={(value) => updateRow(row.id, 'customerImpact', value)} accent />
               <EditableCell value={row.effect} onChange={(value) => updateRow(row.id, 'effect', value)} />
               <EditableCell value={row.cause} onChange={(value) => updateRow(row.id, 'cause', value)} />
@@ -77,7 +77,7 @@ export default function FmeaTable({ rows, onChange }) {
               <RatingCell value={row.severity} onChange={(value) => updateRow(row.id, 'severity', value)} />
               <RatingCell value={row.occurrence} onChange={(value) => updateRow(row.id, 'occurrence', value)} />
               <RatingCell value={row.detection} onChange={(value) => updateRow(row.id, 'detection', value)} />
-              <td className={`px-3 py-2 text-center font-mono font-semibold ${rpnColor(row.rpn || 0)}`}>
+              <td className={`px-3 py-2 text-left font-mono font-semibold ${rpnColor(row.rpn || 0)}`}>
                 {row.rpn || 0}
               </td>
               <EditableCell value={row.recommendedAction} onChange={(value) => updateRow(row.id, 'recommendedAction', value)} />
@@ -101,13 +101,13 @@ export default function FmeaTable({ rows, onChange }) {
   )
 }
 
-function Th({ children, width, tooltip }) {
+function Th({ children, width, tooltip, center = false }) {
   return (
     <th
       scope="col"
       style={{ width }}
       title={tooltip}
-      className="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-slate-600"
+      className={`px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-600 ${center ? 'text-center' : 'text-left'}`}
     >
       {children}
     </th>
@@ -122,7 +122,7 @@ function EditableCell({ value, onChange, accent = false, placeholder }) {
         onChange={(event) => onChange(event.target.value)}
         rows={2}
         placeholder={placeholder}
-        className={`w-full bg-transparent text-sm leading-snug resize-none focus:bg-white focus:ring-1 focus:ring-blue-400 rounded px-1 ${
+        className={`w-full bg-transparent text-sm leading-snug resize-none text-left focus:bg-white focus:ring-1 focus:ring-blue-400 rounded px-1 ${
           accent ? 'text-blue-900 font-medium' : 'text-slate-900'
         }`}
       />
@@ -132,14 +132,14 @@ function EditableCell({ value, onChange, accent = false, placeholder }) {
 
 function RatingCell({ value, onChange }) {
   return (
-    <td className="px-2 py-2 text-center">
+    <td className="px-2 py-2 text-left">
       <input
         type="number"
         min={1}
         max={10}
         value={value || 1}
         onChange={(event) => onChange(event.target.value)}
-        className="w-12 text-center bg-transparent rounded font-mono focus:bg-white focus:ring-1 focus:ring-blue-400"
+        className="w-12 text-left bg-transparent rounded font-mono focus:bg-white focus:ring-1 focus:ring-blue-400"
       />
     </td>
   )

@@ -1,17 +1,13 @@
 // Prompt template for the Failure Mode and Effects Analysis generator.
 // Kept in a dedicated file so it can be tuned without touching application logic.
 
-export function buildFmeaPrompt({ description, functions }) {
-  const functionsSection = functions
-    ? `\nKey functions of the system (provided by the user):\n${functions}\n`
-    : ''
+export function buildFmeaPrompt({ description }) {
+  return `You are an expert hardware reliability engineer with deep experience running Failure Mode and Effects Analysis on consumer electronics and robotics products. The user is a hardware program manager who needs a high-quality first draft of an analysis they will then review and refine.
 
-  return `You are an expert hardware reliability engineer with deep experience running Failure Mode and Effects Analysis on consumer electronics, optical systems, and depth-sensing modules. The user is a hardware program manager who needs a high-quality first draft of an analysis they will then review and refine.
-
-System description:
+The following design change(s) are being evaluated:
 ${description}
-${functionsSection}
-Produce a Failure Mode and Effects Analysis with between 12 and 20 rows. Cover the dominant failure modes across optical, electrical, mechanical, thermal, software interface, manufacturing, and field-use domains where applicable. Bias toward failure modes that an experienced hardware engineer would actually flag in a real review meeting, not generic boilerplate.
+
+Produce a Failure Mode and Effects Analysis with between 12 and 20 rows focused specifically on failure modes introduced or affected by these design changes. Cover relevant failure modes across mechanical, electrical, firmware, manufacturing, thermal, and field-use domains as applicable. Bias toward failure modes that an experienced hardware engineer would actually flag in a real design review, not generic boilerplate.
 
 Keep all text fields short and scannable. Use key technology terms so an engineer can understand each row at a glance.
 

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, forwardRef } from 'react'
 
 const W   = 520
 const H   = 500
@@ -26,7 +26,7 @@ const X_MID    = CW / 2   // pixel position of the vertical divider (never moves
 // CH/2, which corresponds to the midpoint of the visible RPN range.
 const Y_MARGIN = 0.06
 
-export default function QuadrantChart({ rows }) {
+const QuadrantChart = forwardRef(function QuadrantChart({ rows }, ref) {
   const [hovered, setHovered] = useState(null)
 
   const normalised = useMemo(
@@ -96,7 +96,7 @@ export default function QuadrantChart({ rows }) {
   const lxRight = PAD.left + CW * 0.75
 
   return (
-    <section className="mt-2 rounded-lg border border-slate-200 bg-white p-6">
+    <section ref={ref} className="mt-2 rounded-lg border border-slate-200 bg-white p-6">
       <h2 className="text-base font-semibold text-slate-800 mb-1">
         Action Priority Matrix — Top 10 by RPN
       </h2>
@@ -221,4 +221,6 @@ export default function QuadrantChart({ rows }) {
       </div>
     </section>
   )
-}
+})
+
+export default QuadrantChart

@@ -5,12 +5,13 @@
   "description": "AI-Powered Failure Mode and Effects Analysis Assistant for hardware program managers. Built by Seoho Youn.",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "node --env-file=.env dev-server.js & vite",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.27.3",
+    "html2canvas": "^1.4.1",
     "papaparse": "^5.4.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
