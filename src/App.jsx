@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import SystemInput from './components/SystemInput.jsx'
 import FmeaTable from './components/FmeaTable.jsx'
 import QuadrantChart from './components/QuadrantChart.jsx'
@@ -106,6 +107,7 @@ export default function App() {
       </main>
 
       <PortfolioFooter />
+      <Analytics />
     </div>
   )
 }
