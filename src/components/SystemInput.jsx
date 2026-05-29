@@ -2,8 +2,8 @@ import { useState } from 'react'
 
 function StepBadge({ number }) {
   return (
-    <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-600 text-white text-xs font-bold">
-      {number}
+    <span className="flex-shrink-0 inline-flex items-center justify-center h-6 px-2 rounded-full bg-blue-600 text-white text-xs font-bold whitespace-nowrap">
+      Step {number}
     </span>
   )
 }

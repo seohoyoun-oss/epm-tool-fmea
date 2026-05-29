@@ -76,8 +76,8 @@ export default function App() {
             {/* Step 4 header + export */}
             <div className="flex items-center justify-between gap-4 flex-wrap">
               <div className="flex items-start gap-3">
-                <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-600 text-white text-xs font-bold">
-                  4
+                <span className="flex-shrink-0 inline-flex items-center justify-center h-6 px-2 rounded-full bg-blue-600 text-white text-xs font-bold whitespace-nowrap">
+                  Step 4
                 </span>
                 <div>
                   <h2 className="text-sm font-semibold text-slate-700 leading-6">
